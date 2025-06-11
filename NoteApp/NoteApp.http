@@ -1,0 +1,35 @@
+@NoteApp_HostAddress = https://localhost:7278
+
+# Get all notes
+GET {{NoteApp_HostAddress}}/api/notes
+Accept: application/json
+
+###
+
+# Get specific note by ID
+GET {{NoteApp_HostAddress}}/api/notes/1
+Accept: application/json
+
+###
+
+# Create a new note
+POST {{NoteApp_HostAddress}}/api/notes
+Content-Type: application/json
+
+{
+  "title": "My First Note",
+  "content": "This is the content of my first note!"
+}
+
+###
+
+# Create another note
+POST {{NoteApp_HostAddress}}/api/notes
+Content-Type: application/json
+
+{
+  "title": "Shopping List",
+  "content": "- Milk\n- Bread\n- Eggs\n- Coffee"
+}
+
+###
