@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NoteApp.Data;
-using NoteApp.Models.Entities;
+using NoteAppBackend.Data;
+using NoteAppBackend.Models.Entities;
 
-namespace NoteApp.Controllers;
+namespace NoteAppBackend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

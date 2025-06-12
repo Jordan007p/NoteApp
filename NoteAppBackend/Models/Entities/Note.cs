@@ -1,4 +1,4 @@
-namespace NoteApp.Models.Entities;
+namespace NoteAppBackend.Models.Entities;
 
 public class Note
 {

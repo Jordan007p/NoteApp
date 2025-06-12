@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NoteApp.Models.Entities;
+using NoteAppBackend.Models.Entities;
 
-namespace NoteApp.Data.Configurations;
+namespace NoteAppBackend.Data.Configurations;
 
 public class NoteConfiguration : IEntityTypeConfiguration<Note>
 {

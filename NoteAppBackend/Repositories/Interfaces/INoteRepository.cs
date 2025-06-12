@@ -1,6 +1,6 @@
-using NoteApp.Models.Entities;
+using NoteAppBackend.Models.Entities;
 
-namespace NoteApp.Repositories.Interfaces;
+namespace NoteAppBackend.Repositories.Interfaces;
 
 public interface INoteRepository
 {

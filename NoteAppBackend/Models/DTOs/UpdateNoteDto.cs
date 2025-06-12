@@ -1,4 +1,4 @@
-namespace NoteApp.Models.DTOs;
+namespace NoteAppBackend.Models.DTOs;
 
 public record UpdateNoteDto(
     string Title,

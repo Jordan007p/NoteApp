@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
-using NoteApp.Data;
+using NoteAppBackend.Data;
 
-namespace NoteApp;
+namespace NoteAppBackend;
 
 public static class Program
 {

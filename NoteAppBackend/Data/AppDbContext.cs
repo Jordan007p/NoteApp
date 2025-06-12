@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using NoteApp.Models.Entities;
+using NoteAppBackend.Models.Entities;
 
-namespace NoteApp.Data;
+namespace NoteAppBackend.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {

@@ -1,6 +1,6 @@
-using NoteApp.Models.DTOs;
+using NoteAppBackend.Models.DTOs;
 
-namespace NoteApp.Services.Interfaces;
+namespace NoteAppBackend.Services.Interfaces;
 
 public interface INoteService
 {

@@ -1,9 +1,9 @@
-using NoteApp.Models.DTOs;
-using NoteApp.Models.Entities;
-using NoteApp.Repositories.Interfaces;
-using NoteApp.Services.Interfaces;
+using NoteAppBackend.Models.DTOs;
+using NoteAppBackend.Models.Entities;
+using NoteAppBackend.Repositories.Interfaces;
+using NoteAppBackend.Services.Interfaces;
 
-namespace NoteApp.Services.Implementations;
+namespace NoteAppBackend.Services.Implementations;
 
 public class NoteService(INoteRepository noteRepository, ILogger<NoteService> logger) : INoteService
 {

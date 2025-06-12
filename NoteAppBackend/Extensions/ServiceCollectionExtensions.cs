@@ -1,9 +1,9 @@
-using NoteApp.Repositories.Implementations;
-using NoteApp.Repositories.Interfaces;
-using NoteApp.Services.Implementations;
-using NoteApp.Services.Interfaces;
+using NoteAppBackend.Repositories.Implementations;
+using NoteAppBackend.Repositories.Interfaces;
+using NoteAppBackend.Services.Implementations;
+using NoteAppBackend.Services.Interfaces;
 
-namespace NoteApp.Extensions;
+namespace NoteAppBackend.Extensions;
 
 public static class ServiceCollectionExtensions
 {

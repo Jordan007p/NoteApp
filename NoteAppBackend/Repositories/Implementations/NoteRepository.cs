@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using NoteApp.Data;
-using NoteApp.Models.Entities;
-using NoteApp.Repositories.Interfaces;
+using NoteAppBackend.Data;
+using NoteAppBackend.Models.Entities;
+using NoteAppBackend.Repositories.Interfaces;
 
-namespace NoteApp.Repositories.Implementations;
+namespace NoteAppBackend.Repositories.Implementations;
 
 public class NoteRepository(AppDbContext context) : INoteRepository
 {
