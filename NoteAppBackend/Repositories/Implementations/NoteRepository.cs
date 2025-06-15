@@ -8,6 +8,11 @@ namespace NoteAppBackend.Repositories.Implementations
 {
     public class NoteRepository(AppDbContext context) : INoteRepository
     {
+        /// <summary>
+        /// Retrieves a note by its ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the note to retrieve.</param>
+        /// <returns>A note if found, or null if no note exists with the given ID.</returns>
         public async Task<Note?> GetByIdAsync(int id)
         {
             return await context.Notes
@@ -15,14 +20,11 @@ namespace NoteAppBackend.Repositories.Implementations
                 .FirstOrDefaultAsync(n => n.Id == id);
         }
 
-        public async Task<IEnumerable<Note>> GetAllAsync()
-        {
-            return await context.Notes
-                .AsNoTracking()
-                .OrderByDescending(n => n.CreatedAt)
-                .ToListAsync();
-        }
-
+        /// <summary>
+        /// Creates a new note entity.
+        /// </summary>
+        /// <param name="note">The note to be created.</param>
+        /// <returns>The task result contains the created note entity.</returns>
         public async Task<Note> CreateAsync(Note note)
         {
             context.Notes.Add(note);
@@ -30,6 +32,12 @@ namespace NoteAppBackend.Repositories.Implementations
             return note;
         }
 
+        /// <summary>
+        /// Updates an existing note with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the note to be updated.</param>
+        /// <param name="updateNoteDto">The data transfer object containing updated values.</param>
+        /// <return>The updated note if found; otherwise, null.</return>
         public async Task<Note?> UpdateAsync(int id, UpdateNoteDto updateNoteDto)
         {
             Note? existingNote = await context.Notes.FindAsync(id);
@@ -46,6 +54,11 @@ namespace NoteAppBackend.Repositories.Implementations
             return existingNote;
         }
 
+        /// <summary>
+        /// Deletes a note with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the note to be deleted.</param>
+        /// <returns>The task result is a boolean indicating whether the note was successfully deleted.</returns>
         public async Task<bool> DeleteAsync(int id)
         {
             int rowsAffected = await context.Notes
@@ -55,6 +68,10 @@ namespace NoteAppBackend.Repositories.Implementations
             return rowsAffected > 0;
         }
 
+        /// <summary>
+        /// Retrieves a list of notes with only essential details.
+        /// </summary>
+        /// <returns>A collection of <see cref="ListItemNote"/> containing basic details of the notes.</returns>
         public async Task<IEnumerable<ListItemNote>> GetListItemsAsync()
         {
             return await context.Notes
