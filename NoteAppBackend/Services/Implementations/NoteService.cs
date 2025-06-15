@@ -3,69 +3,49 @@ using NoteAppBackend.Models.Entities;
 using NoteAppBackend.Repositories.Interfaces;
 using NoteAppBackend.Services.Interfaces;
 
-namespace NoteAppBackend.Services.Implementations;
-
-public class NoteService(INoteRepository noteRepository, ILogger<NoteService> logger) : INoteService
+namespace NoteAppBackend.Services.Implementations
 {
-    public async Task<NoteDto?> GetNoteByIdAsync(int id)
+    public class NoteService(INoteRepository noteRepository) : INoteService
     {
-        logger.LogInformation("Getting note with ID: {Id}", id);
-
-        var note = await noteRepository.GetByIdAsync(id);
-        return note == null ? null : MapToDto(note);
-    }
-
-    public async Task<IEnumerable<NoteDto>> GetAllNotesAsync()
-    {
-        logger.LogInformation("Getting all notes");
-
-        var notes = await noteRepository.GetAllAsync();
-        return notes.Select(MapToDto);
-    }
-
-    public async Task<NoteDto> CreateNoteAsync(CreateNoteDto createDto)
-    {
-        logger.LogInformation("Creating new note with title: {Title}", createDto.Title);
-
-        var note = new Note
+        public async Task<NoteDto?> GetNoteByIdAsync(int id)
         {
-            Title = createDto.Title,
-            Content = createDto.Content
-        };
+            Note? note = await noteRepository.GetByIdAsync(id);
+            return note == null ? null : MapToDto(note);
+        }
 
-        var createdNote = await noteRepository.CreateAsync(note);
-        return MapToDto(createdNote);
-    }
+        public async Task<NoteDto> CreateNoteAsync(CreateNoteDto createDto)
+        {
+            Note note = new() { Title = createDto.Title, Content = createDto.Content };
 
-    public async Task<NoteDto?> UpdateNoteAsync(int id, UpdateNoteDto updateDto)
-    {
-        logger.LogInformation("Updating note with ID: {Id}", id);
+            Note createdNote = await noteRepository.CreateAsync(note);
+            return MapToDto(createdNote);
+        }
 
-        var existingNote = await noteRepository.GetByIdAsync(id);
-        if (existingNote == null) return null;
+        public async Task<NoteDto?> UpdateNoteAsync(int id, UpdateNoteDto updateDto)
+        {
+            Note? updatedNote = await noteRepository.UpdateAsync(id, updateDto);
+            return updatedNote == null ? null : MapToDto(updatedNote);
+        }
 
-        existingNote.Title = updateDto.Title;
-        existingNote.Content = updateDto.Content;
+        public async Task<bool> DeleteNoteAsync(int id)
+        {
+            return await noteRepository.DeleteAsync(id);
+        }
 
-        var updatedNote = await noteRepository.UpdateAsync(existingNote);
-        return MapToDto(updatedNote);
-    }
+        public async Task<IEnumerable<ListItemNote>> GetAllListItemsAsync()
+        {
+            return await noteRepository.GetListItemsAsync();
+        }
 
-    public async Task<bool> DeleteNoteAsync(int id)
-    {
-        logger.LogInformation("Deleting note with ID: {Id}", id);
-
-        return await noteRepository.DeleteAsync(id);
-    }
-
-    private static NoteDto MapToDto(Note note)
-    {
-        return new NoteDto(
-            note.Id,
-            note.Title,
-            note.Content,
-            note.CreatedAt,
-            note.UpdatedAt
-        );
+        private static NoteDto MapToDto(Note note)
+        {
+            return new NoteDto(
+                note.Id,
+                note.Title,
+                note.Content,
+                note.CreatedAt,
+                note.UpdatedAt
+            );
+        }
     }
 }

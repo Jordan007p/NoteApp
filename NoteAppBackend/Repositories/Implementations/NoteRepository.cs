@@ -1,55 +1,67 @@
 using Microsoft.EntityFrameworkCore;
 using NoteAppBackend.Data;
+using NoteAppBackend.Models.DTOs;
 using NoteAppBackend.Models.Entities;
 using NoteAppBackend.Repositories.Interfaces;
 
-namespace NoteAppBackend.Repositories.Implementations;
-
-public class NoteRepository(AppDbContext context) : INoteRepository
+namespace NoteAppBackend.Repositories.Implementations
 {
-    public async Task<Note?> GetByIdAsync(int id)
+    public class NoteRepository(AppDbContext context) : INoteRepository
     {
-        return await context.Notes.FindAsync(id);
-    }
+        public async Task<Note?> GetByIdAsync(int id)
+        {
+            return await context.Notes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(n => n.Id == id);
+        }
 
-    public async Task<IEnumerable<Note>> GetAllAsync()
-    {
-        return await context.Notes
-            .OrderByDescending(n => n.CreatedAt)
-            .ToListAsync();
-    }
+        public async Task<IEnumerable<Note>> GetAllAsync()
+        {
+            return await context.Notes
+                .AsNoTracking()
+                .OrderByDescending(n => n.CreatedAt)
+                .ToListAsync();
+        }
 
-    public async Task<Note> CreateAsync(Note note)
-    {
-        note.CreatedAt = DateTime.UtcNow;
-        note.UpdatedAt = DateTime.UtcNow;
+        public async Task<Note> CreateAsync(Note note)
+        {
+            context.Notes.Add(note);
+            await context.SaveChangesAsync();
+            return note;
+        }
 
-        context.Notes.Add(note);
-        await context.SaveChangesAsync();
-        return note;
-    }
+        public async Task<Note?> UpdateAsync(int id, UpdateNoteDto updateNoteDto)
+        {
+            Note? existingNote = await context.Notes.FindAsync(id);
 
-    public async Task<Note> UpdateAsync(Note note)
-    {
-        note.UpdatedAt = DateTime.UtcNow;
+            if (existingNote == null)
+            {
+                return null;
+            }
 
-        context.Notes.Update(note);
-        await context.SaveChangesAsync();
-        return note;
-    }
+            existingNote.Title = updateNoteDto.Title;
+            existingNote.Content = updateNoteDto.Content;
 
-    public async Task<bool> DeleteAsync(int id)
-    {
-        var note = await context.Notes.FindAsync(id);
-        if (note == null) return false;
+            await context.SaveChangesAsync();
+            return existingNote;
+        }
 
-        context.Notes.Remove(note);
-        await context.SaveChangesAsync();
-        return true;
-    }
+        public async Task<bool> DeleteAsync(int id)
+        {
+            int rowsAffected = await context.Notes
+                .Where(n => n.Id == id)
+                .ExecuteDeleteAsync();
 
-    public async Task<bool> ExistsAsync(int id)
-    {
-        return await context.Notes.AnyAsync(n => n.Id == id);
+            return rowsAffected > 0;
+        }
+
+        public async Task<IEnumerable<ListItemNote>> GetListItemsAsync()
+        {
+            return await context.Notes
+                .AsNoTracking()
+                .OrderByDescending(n => n.CreatedAt)
+                .Select(n => new ListItemNote(n.Id, n.Title, n.CreatedAt))
+                .ToListAsync();
+        }
     }
 }

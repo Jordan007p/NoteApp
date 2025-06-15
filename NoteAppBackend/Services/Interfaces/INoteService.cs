@@ -1,12 +1,17 @@
 using NoteAppBackend.Models.DTOs;
 
-namespace NoteAppBackend.Services.Interfaces;
-
-public interface INoteService
+namespace NoteAppBackend.Services.Interfaces
 {
-    Task<NoteDto?> GetNoteByIdAsync(int id);
-    Task<IEnumerable<NoteDto>> GetAllNotesAsync();
-    Task<NoteDto> CreateNoteAsync(CreateNoteDto createDto);
-    Task<NoteDto?> UpdateNoteAsync(int id, UpdateNoteDto updateDto);
-    Task<bool> DeleteNoteAsync(int id);
+    public interface INoteService
+    {
+        Task<NoteDto?> GetNoteByIdAsync(int id);
+
+        Task<NoteDto> CreateNoteAsync(CreateNoteDto createDto);
+
+        Task<NoteDto?> UpdateNoteAsync(int id, UpdateNoteDto updateDto);
+
+        Task<bool> DeleteNoteAsync(int id);
+
+        Task<IEnumerable<ListItemNote>> GetAllListItemsAsync();
+    }
 }

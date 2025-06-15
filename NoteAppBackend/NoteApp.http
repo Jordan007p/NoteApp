@@ -17,8 +17,8 @@ POST {{NoteApp_HostAddress}}/api/notes
 Content-Type: application/json
 
 {
-  "title": "My First Note",
-  "content": "This is the content of my first note!"
+  "title": "",
+  "content": ""
 }
 
 ###
@@ -31,5 +31,22 @@ Content-Type: application/json
   "title": "Shopping List",
   "content": "- Milk\n- Bread\n- Eggs\n- Coffee"
 }
+
+###
+
+# Update an existing note
+PUT {{NoteApp_HostAddress}}/api/notes/1
+Content-Type: application/json
+
+{
+  "title": "Updated Note Title",
+  "content": "This is the updated content of the note."
+}
+
+###
+
+# Delete a note
+DELETE {{NoteApp_HostAddress}}/api/notes/1
+Accept: application/json
 
 ###
